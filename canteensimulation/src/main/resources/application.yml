@@ -1,0 +1,23 @@
+server:
+  port: 8080 # 后端运行端口
+
+spring:
+  datasource:
+    # 使用 MySQL 8.x/9.x 驱动
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 这里的 canteen_db 要和上面创建的库名一致
+    url: jdbc:mysql://localhost:3306/canteen_db?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    # Bug 22 修复: 优先使用环境变量 DB_PASSWORD，未设置时回退到默认值
+    password: ${DB_PASSWORD:Lazydog@234711}
+
+# MyBatis Plus 增强配置
+mybatis-plus:
+  configuration:
+    # 重要：在控制台打印生成的 SQL，方便我们调试仿真逻辑
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 自动将数据库下划线字段映射到 Java 驼峰命名 (window_id -> windowId)
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto # 默认主键自增
